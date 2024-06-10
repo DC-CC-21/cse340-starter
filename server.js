@@ -12,21 +12,32 @@ const app = express();
 const static = require("./routes/static");
 
 /* ***********************
- * Routes
+ * Live Reload
+ *************************/
+var livereload = require("livereload");
+var connectLiveReload = require("connect-livereload");
+const liveReloadServer = livereload.createServer();
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 50);
+});
+app.use(connectLiveReload());
+/* ***********************
+ * View Engines
  *************************/
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout");
 
-//* Home Route
-app.get("/", (req, res) => {
-  res.render("index", {title: "Home"})
-})
-
-
 /* ***********************
  * Routes
  *************************/
+//* Home Route
+app.get("/", (req, res) => {
+  res.render("index", { title: "Home" });
+});
+
 app.use(static);
 
 /* ***********************
