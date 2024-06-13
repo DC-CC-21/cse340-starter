@@ -120,7 +120,8 @@ section,
 
 @media screen and (min-width: 600px) {
   #wrapper {
-    max-width: 600px;
+    width: 80%;
+    max-width:800px;
     border: 2px solid var(--hightlight);
     border-radius: 0.5em;
     margin: 0.5em auto;
@@ -133,5 +134,6 @@ section,
   #upgrades-reviews {
     display: flex;
     flex-direction: row-reverse;
+    justify-content: space-evenly;
   }
 }
