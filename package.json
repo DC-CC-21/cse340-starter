@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "connect-livereload": "^0.6.1",
     "browser-sync": "^3.0.2",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.10",
