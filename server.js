@@ -14,15 +14,17 @@ const static = require("./routes/static");
 /* ***********************
  * Live Reload
  *************************/
-var livereload = require("livereload");
-var connectLiveReload = require("connect-livereload");
-const liveReloadServer = livereload.createServer();
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 50);
-});
-app.use(connectLiveReload());
+if (process.env.NODE_ENV !== "production") {
+  var livereload = require("livereload");
+  var connectLiveReload = require("connect-livereload");
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 50);
+  });
+  app.use(connectLiveReload());
+}
 /* ***********************
  * View Engines
  *************************/
