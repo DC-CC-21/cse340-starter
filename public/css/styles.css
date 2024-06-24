@@ -152,6 +152,26 @@ section,
   font-size: 1.2rem;
 }
 
+
+/* > ERRORS */
+#error {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  background-color: #ffffffbd;
+  text-align: center;
+  padding: 0.25em 1em;
+}
+#errorImage {
+  width:90%;
+  display:block;
+  margin:auto;
+  padding:0.5em;
+  max-width:600px;
+}
+
+
 /* > MISC */
 section li {
   margin-left: 1.25rem;
@@ -174,6 +194,10 @@ h1 {
 a {
   color: black;
   text-decoration: none;
+}
+
+main {
+  position:relative;
 }
 
 @media screen and (min-width: 600px) {
