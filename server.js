@@ -10,6 +10,8 @@ const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
+const inventoryRoute = require("./routes/inventoryRoute");
+const baseController = require("./controllers/baseController");
 
 /* ***********************
  * Live Reload
@@ -36,11 +38,9 @@ app.set("layout", "./layouts/layout");
  * Routes
  *************************/
 //* Home Route
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
-});
-
+app.get("/", baseController.buildHome);
 app.use(static);
+app.use("/inv", inventoryRoute);
 
 /* ***********************
  * Local Server Information
@@ -53,5 +53,5 @@ const host = process.env.HOST;
  * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`);
+  console.log(`app listening on http://${host}:${port}`);
 });

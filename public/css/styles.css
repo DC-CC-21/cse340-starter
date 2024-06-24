@@ -12,6 +12,7 @@
   --hightlight: #0082e5;
 }
 
+/*> HEADER */
 #top-header {
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
@@ -27,11 +28,15 @@
   color: var(--primary);
 }
 
+/*> NAV */
 nav {
   font-family: Arial, Helvetica, sans-serif;
   background-color: var(--primary);
   color: white;
   font-size: larger;
+}
+nav a {
+  color: white;
 }
 nav ul {
   display: flex;
@@ -43,20 +48,7 @@ nav li {
   list-style-type: none;
 }
 
-section li {
-  margin-left: 1.25rem;
-  padding: 0.25em;
-}
-
-footer {
-  padding: 0.25em;
-}
-
-h1,
-h2 {
-  padding: 0.75em 0.5em;
-}
-
+/*> HERO */
 #hero {
   position: relative;
 }
@@ -71,7 +63,7 @@ h2 {
   padding: 0.5em;
 }
 #hero div h2 {
-  padding:0.25em;
+  padding: 0.25em;
 }
 #hero div p {
   padding: 0.2rem;
@@ -79,11 +71,16 @@ h2 {
 #hero div img {
   width: 125px;
 }
+section,
+#hero {
+  padding: 0.5em;
+}
 
 .highlight {
   color: var(--hightlight);
 }
 
+/* > UPGRADES */
 #upgrades {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -113,15 +110,76 @@ h2 {
   padding: 0.25em;
 }
 
-section,
-#hero {
-  padding: 0.5em;
+/* > Inventory */
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.25em;
+  padding: 0.25em;
+}
+#inv-display li {
+  margin: auto;
+  list-style-type: none;
+  display: grid;
+  grid-template-rows: 1fr 2em;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  border: 1px solid black;
+  padding: 0.25em;
+  max-width: 300px;
+  width: 100%;
+  height: 100%;
+}
+#inv-display a {
+  margin: auto;
+}
+#inv-display img {
+  margin: auto;
+  display: block;
+}
+.namePrice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.namePrice a {
+  font-size: 1rem;
+}
+.namePrice span {
+  font-size: 1.2rem;
+}
+
+/* > MISC */
+section li {
+  margin-left: 1.25rem;
+  padding: 0.25em;
+}
+
+footer {
+  padding: 0.25em;
+}
+
+h1,
+h2 {
+  padding: 0.75em 0.5em;
+}
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--primary);
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }
 
 @media screen and (min-width: 600px) {
   #wrapper {
     width: 80%;
-    max-width:800px;
+    max-width: 800px;
     border: 2px solid var(--hightlight);
     border-radius: 0.5em;
     margin: 0.5em auto;
