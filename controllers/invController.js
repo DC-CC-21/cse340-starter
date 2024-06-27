@@ -36,4 +36,40 @@ invCont.buildByClassificationId = async function (req, res, next) {
   });
 };
 
+/**
+ * Renders a page displaying the details of a specific vehicle.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @param {Function} next - The next middleware function.
+ */
+invCont.buildByInventoryId = async function (req, res, next) {
+  // Get the inventory_id from the request parameters
+  const inventoryId = req.params.inventoryId;
+
+  // Get the navigation data
+  const nav = await utilities.getNav();
+
+  // Retrieve the inventory data for the specified vehicle
+  const data = await invModel.getInventoryByInventoryId(inventoryId);
+
+  // Get the vehicle object from the data
+  const vehicle = data[0];
+
+  // Build the details section containing the vehicle data
+  const details = await utilities.buildDetails(vehicle);
+
+  // Render the page with the vehicle details and navigation data
+  res.render("./inventory/vehicle", {
+    title: "Vehicle Details",
+    nav,
+    details,
+  });
+};
+
+invCont.pageWithError = async function (req, res, next) {
+  res.render("./pageWithError", {
+    undefinedVariableHere,
+  });
+}
+
 module.exports = invCont;

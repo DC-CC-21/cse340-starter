@@ -87,4 +87,62 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+/**
+ * Builds the details of a vehicle.
+ * 
+ * @param {Object} data - The data of the vehicle.
+ * @returns {Promise<string>} - The HTML string of the details.
+ */
+Util.buildDetails = async function (data) {
+  /**
+   * Builds a detail template.
+   * 
+   * @param {string} name - The name of the detail.
+   * @param {string} value - The value of the detail.
+   * @returns {string} - The HTML string of the detail template.
+   */
+  function detailTemplate(name, value) {
+    return `
+      <div class="detail">
+      <span class="label">${name}:</span>
+      <span class="value">${value}</span>
+      </div>
+    `;
+  }
+  let details = `
+    <div>
+      <img
+        src="${data.inv_image}" 
+        alt="Main image of ${data.inv_make} ${data.inv_model} on CSE Motors"
+        class="main"
+        >
+      <div class="thumbnail-container">
+        <img
+          src="${data.inv_thumbnail}" 
+          alt="Thumbnail of ${data.inv_make} ${data.inv_model} on CSE Motors"
+          class="thumbnail"
+          >
+      </div>
+    </div>
+    <div class="info">
+      <h1>${data.inv_year} ${data.inv_make} ${data.inv_model}</h1>
+      <div>
+        ${detailTemplate(
+          "Price",
+          `$${new Intl.NumberFormat("en-US").format(data.inv_price)}`
+        )}
+        ${detailTemplate("Miles", `${data.inv_miles} miles`)}
+        ${detailTemplate("Color", `${data.inv_color}`)}
+        ${detailTemplate("Description", `${data.inv_description}`)}
+      </div>
+      <div class="buttons">
+        <a>Start My Purchase</a>
+        <a>Contact Us</a>
+        <a>Schedule Test Drive</a>
+      </div>
+    </div>
+  `;
+  return details;
+};
+
 module.exports = Util;

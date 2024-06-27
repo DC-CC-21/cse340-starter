@@ -33,7 +33,33 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
+/**
+ * This function returns an array of inventory data
+ * filtered by a specific inventoryId.
+ *
+ * @param {number} inventoryId - The id of the inventory
+ * @return {Promise<InventoryRow[]>} An array of inventory data
+ */
+async function getInventoryByInventoryId(inventoryId) {
+  try {
+    // Use a parameterized query to prevent SQL injection
+    // Query the inventory table for the specific inventoryId
+    let data = await pool.query(
+      `SELECT * FROM public.inventory
+        WHERE inv_id = $1
+      `,
+      [inventoryId]
+    );
+    // Return the rows of the query result
+    return data.rows;
+  } catch (error) {
+    // Log any errors that occur
+    console.log("getInventoryByInventoryId error", error);
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
+  getInventoryByInventoryId,
 };
