@@ -131,7 +131,7 @@ Util.buildDetails = async function (data) {
           "Price",
           `$${new Intl.NumberFormat("en-US").format(data.inv_price)}`
         )}
-        ${detailTemplate("Miles", `${data.inv_miles} miles`)}
+        ${detailTemplate("Miles", `${Number(data.inv_miles).toLocaleString()} miles`)}
         ${detailTemplate("Color", `${data.inv_color}`)}
         ${detailTemplate("Description", `${data.inv_description}`)}
       </div>
