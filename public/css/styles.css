@@ -218,7 +218,7 @@ details .info {
 .buttons a {
   padding: 0.6em 1em;
   text-align: center;
-  background-color: #0082e5;
+  background-color: #19598a;
   margin-bottom: 0.25em;
   font-size: large;
 }
@@ -227,6 +227,68 @@ details .info {
 }
 
 /* > MISC */
+.notice {
+  display:flex;
+  flex-direction: column;
+  padding:0.5em;
+}
+.notice li {
+  list-style-type: none;
+  padding:0.5em 0.25em;
+  border-radius: 0.5em;
+  background-color:rgba(255, 0, 0, 0.377);
+  border:3px solid red;
+  margin:0.25em;
+  
+}
+form {
+  background-color:#486094;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  margin:0.5em 1em;
+}
+label{
+  color:white;
+  display:grid;
+
+  display:flex;
+  flex-direction:column;
+  padding: 0.25em;
+  font-size: large;
+  max-width: 400px;
+  margin:0.5em 0.25em;
+}
+input {
+  padding: 0.25em;
+  font-size: large;
+}
+form button{
+  padding:0.25em;
+  font-size: large;
+  border-radius: 10px;
+  width:100px;
+  margin:0.5em;
+}
+
+.inform{
+  color:white;
+    
+}
+label .inform{
+  color:white;
+  font-size: small;
+}
+form div{
+  text-align: center;
+  color:white;
+  padding: 0.25em;
+}
+form a {
+  color:white;
+  font-size: large;
+  text-decoration: underline;
+}
+
 section li {
   margin-left: 1.25rem;
   padding: 0.25em;
