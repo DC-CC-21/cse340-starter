@@ -20,6 +20,11 @@ router.post(
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 );
+router.post("/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.Login)
+)
 
 // Export the router module
 module.exports = router;

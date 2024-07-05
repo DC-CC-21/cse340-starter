@@ -7,7 +7,9 @@
 </ul>
 <% } %>
 <form action="/account/register" method="post">
-  <span class="inform">Fields marked with * are required</span>
+  <span class="inform"
+    >Fields marked with * are required</span
+  >
   <label for="account_firstname">
     First name*:
     <input
@@ -15,22 +17,36 @@
       name="account_firstname"
       id="account_firstname"
       required
+      value="<%= locals.account_firstname %>"
     />
   </label>
   <label for="account_lastname">
     Last name*:
-    <input type="text" name="account_lastname" id="account_lastname" required />
+    <input
+      type="text"
+      name="account_lastname"
+      id="account_lastname"
+      required
+      value="<%= locals.account_lastname %>"
+    />
   </label>
   <label for="account_email">
     Email*:
-    <input type="email" name="account_email" id="account_email" required />
+    <input
+      type="email"
+      name="account_email"
+      id="account_email"
+      required
+      value="<%= locals.account_email %>"
+    />
   </label>
   <label for="account_password">
     <span
       >Password*
       <span class="inform"
-        >Must be at least 12 characters with at least 1 uppercase, 1 lowercase,
-        1 number, and 1 special character</span
+        >Must be at least 12 characters with at least 1
+        uppercase, 1 lowercase, 1 number, and 1 special
+        character</span
       >:</span
     >
     <input
@@ -43,5 +59,8 @@
     />
   </label>
   <button type="submit">Register</button>
-  <div>Already have an account? <a href="/account/register">Login</a></div>
+  <div>
+    Already have an account?
+    <a href="/account/login">Login</a>
+  </div>
 </form>

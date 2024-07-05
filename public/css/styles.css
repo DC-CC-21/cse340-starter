@@ -226,6 +226,37 @@ details .info {
   background-color: aqua;
 }
 
+
+#management-links{
+  list-style-type: none;
+  display:flex;
+  width:100%;
+  flex-direction:row;
+  justify-content:space-evenly;
+  padding:0.25em;
+  margin:0.25em;
+  color:white;
+  height:50px;
+}
+
+#management-links a{
+  padding:0.5em;
+  background-color: var(--primary);
+  border-radius: 0.5em;
+  color:white;
+}
+
+#messages li{
+  background-color: rgb(140, 233, 97);
+  border-radius: 0.5em;
+  border:1px solid green;
+  margin:1em auto;
+  width:80%;
+  padding:0.5em;
+  list-style-type: none;
+  
+}
+
 /* > MISC */
 .notice {
   display:flex;
@@ -258,7 +289,7 @@ label{
   max-width: 400px;
   margin:0.5em 0.25em;
 }
-input {
+input, select {
   padding: 0.25em;
   font-size: large;
 }

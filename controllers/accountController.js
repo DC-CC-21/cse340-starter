@@ -1,6 +1,7 @@
 // Import necessary modules
 const utilities = require("../utilities");
 const accountModel = require("../models/account-model");
+const bcrypt = require("bcryptjs");
 
 /**
  * Renders the login page.
@@ -12,7 +13,11 @@ async function buildLogin(req, res, next) {
   // Get the navigation data
   const nav = await utilities.getNav();
   // Render the login page with the navigation data
-  res.render("account/login", { title: "Login", nav });
+  res.render("account/login", {
+    title: "Login",
+    nav,
+    errors: null,
+  });
 }
 
 /**
@@ -25,7 +30,11 @@ async function buildRegister(req, res, next) {
   // Get the navigation data
   const nav = await utilities.getNav();
   // Render the registration page with the navigation data
-  res.render("account/register", { title: "Register", nav, errors:null });
+  res.render("account/register", {
+    title: "Register",
+    nav,
+    errors: null,
+  });
 }
 
 async function registerAccount(req, res) {
@@ -37,11 +46,26 @@ async function registerAccount(req, res) {
     account_password,
   } = req.body;
 
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hashSync(
+      account_password,
+      10
+    );
+  } catch (error) {
+    req.flash("notice", "Sorry, the registration failed.");
+    res.status(501).render("account/register", {
+      title: "Register",
+      nav,
+      errors: null,
+    });
+  }
+
   const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_password
+    hashedPassword
   );
 
   if (regResult) {
@@ -49,11 +73,51 @@ async function registerAccount(req, res) {
       "notice",
       `Congratulations, you're registered ${account_firstname}. Please log in.`
     );
-    res.status(201).render("account/login", { title: "Login", nav });
+    res.status(201).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email: account_email,
+    });
   } else {
     req.flash("notice", "Sorry, the registration failed.");
-    res.status(501).render("account/register", { title: "Register", nav, errors:null});
+    res.status(501).render("account/register", {
+      title: "Register",
+      nav,
+      errors: null,
+    });
   }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount }; // Export the login and register functions
+async function Login(req, res) {
+  const nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  const loginResult = await accountModel.loginAccount(
+    account_email,
+    account_password
+  );
+
+  if (loginResult) {
+    req.flash("notice", "Login successful.");
+    res.redirect("/");
+    // res
+    //   .status(201)
+    //   .render("/", { title: "Login", nav });
+  } else {
+    req.flash("notice", "Login failed. Please try again.");
+    res.status(501).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email: account_email,
+    });
+  }
+}
+
+module.exports = {
+  buildLogin,
+  buildRegister,
+  registerAccount,
+  Login,
+}; // Export the login and register functions
+

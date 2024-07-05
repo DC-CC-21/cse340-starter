@@ -145,4 +145,18 @@ Util.buildDetails = async function (data) {
   return details;
 };
 
+Util.getManagementLinks = async function () {
+  return `
+    <ul id="management-links">
+      <li><a href="/inv/add-classification">Add Classification</a></li>
+      <li><a href="/inv/add-inventory">Add Vehicle</a></li>
+    </ul>
+  `;
+};
+
+Util.getClassificationIdOptions = async function(){
+  const options = await invModel.getClassificationIds()
+  return options.map(option => `<option value="${option.classification_id}">${option.classification_name}</option>`)
+}
+
 module.exports = Util;
