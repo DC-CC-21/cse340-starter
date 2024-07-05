@@ -25,7 +25,7 @@ validate.addClassificationRules = () => {
       .withMessage("Please provide a classification name."), // Custom error message for invalid input
 
     body("classification_name")
-      .matches("[a-zA-Z0-9_]+") // Ensure field contains only letters, numbers, and underscores
+      .isAlphanumeric() // Ensure field contains only letters, numbers, and underscores
       .withMessage(
         "Classification name must contain only letters, numbers, and underscores."
       ),
@@ -140,7 +140,9 @@ validate.checkInventoryData = async (req, res, next) => {
   if (!errors.isEmpty()) {
     const nav = await utilities.getNav();
     const links = await utilities.getManagementLinks();
-    const options = await utilities.getClassificationIdOptions(req.body.classification_id);
+    const options = await utilities.getClassificationIdOptions(
+      req.body.classification_id
+    );
     res.locals = { ...res.locals, ...req.body };
     res.render("./inventory/add-inventory", {
       title: "Add Classification",
