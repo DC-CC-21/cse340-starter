@@ -55,26 +55,32 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_model
       } details"
                         >
-                        <img src="${vehicle.inv_thumbnail}" alt="Image of ${
-        vehicle.make
-      } ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors">
+                        <img src="${
+                          vehicle.inv_thumbnail
+                        }" alt="Image of ${vehicle.make} ${
+        vehicle.inv_make
+      } ${vehicle.inv_model} on CSE Motors">
                     </a>
                     <div class="namePrice"> <!-- Start a div to contain the vehicle's name and price -->
                         <hr/>
                         <h2>
                             <a
-                                href="../../inv/detail/${vehicle.inv_id}"
-                                title="View ${vehicle.inv_make} ${
-        vehicle.inv_model
-      } details"
+                                href="../../inv/detail/${
+                                  vehicle.inv_id
+                                }"
+                                title="View ${
+                                  vehicle.inv_make
+                                } ${vehicle.inv_model} details"
                                 >
-                                ${vehicle.inv_make} ${vehicle.inv_model}
+                                ${vehicle.inv_make} ${
+        vehicle.inv_model
+      }
                             </a>
                         </h2>
                         <span> <!-- Start a span to contain the vehicle's price -->
-                            $${new Intl.NumberFormat("en-US").format(
-                              vehicle.inv_price
-                            )}
+                            $${new Intl.NumberFormat(
+                              "en-US"
+                            ).format(vehicle.inv_price)}
                         </span>
                     </div>
                 </li>
@@ -89,14 +95,14 @@ Util.buildClassificationGrid = async function (data) {
 
 /**
  * Builds the details of a vehicle.
- * 
+ *
  * @param {Object} data - The data of the vehicle.
  * @returns {Promise<string>} - The HTML string of the details.
  */
 Util.buildDetails = async function (data) {
   /**
    * Builds a detail template.
-   * 
+   *
    * @param {string} name - The name of the detail.
    * @param {string} value - The value of the detail.
    * @returns {string} - The HTML string of the detail template.
@@ -113,27 +119,41 @@ Util.buildDetails = async function (data) {
     <div>
       <img
         src="${data.inv_image}" 
-        alt="Main image of ${data.inv_make} ${data.inv_model} on CSE Motors"
+        alt="Main image of ${data.inv_make} ${
+    data.inv_model
+  } on CSE Motors"
         class="main"
         >
       <div class="thumbnail-container">
         <img
           src="${data.inv_thumbnail}" 
-          alt="Thumbnail of ${data.inv_make} ${data.inv_model} on CSE Motors"
+          alt="Thumbnail of ${data.inv_make} ${
+    data.inv_model
+  } on CSE Motors"
           class="thumbnail"
           >
       </div>
     </div>
     <div class="info">
-      <h1>${data.inv_year} ${data.inv_make} ${data.inv_model}</h1>
+      <h1>${data.inv_year} ${data.inv_make} ${
+    data.inv_model
+  }</h1>
       <div>
         ${detailTemplate(
           "Price",
-          `$${new Intl.NumberFormat("en-US").format(data.inv_price)}`
+          `$${new Intl.NumberFormat("en-US").format(
+            data.inv_price
+          )}`
         )}
-        ${detailTemplate("Miles", `${Number(data.inv_miles).toLocaleString()} miles`)}
+        ${detailTemplate(
+          "Miles",
+          `${Number(data.inv_miles).toLocaleString()} miles`
+        )}
         ${detailTemplate("Color", `${data.inv_color}`)}
-        ${detailTemplate("Description", `${data.inv_description}`)}
+        ${detailTemplate(
+          "Description",
+          `${data.inv_description}`
+        )}
       </div>
       <div class="buttons">
         <a>Start My Purchase</a>
@@ -154,9 +174,17 @@ Util.getManagementLinks = async function () {
   `;
 };
 
-Util.getClassificationIdOptions = async function(){
-  const options = await invModel.getClassificationIds()
-  return options.map(option => `<option value="${option.classification_id}">${option.classification_name}</option>`)
-}
+Util.getClassificationIdOptions = async function (value = "") {
+  const options = await invModel.getClassificationIds();
+  return options.map((option) => {
+    console.log(option.classification_name, option.classification_id, value, option.classification_id == value ? "selected=\"selected\"" : "")
+    return `<option 
+              value="${option.classification_id}"
+              ${option.classification_id == value ? "selected=\"selected\"" : ""}
+              >
+                ${option.classification_name}
+            </option>`;
+  });
+};
 
 module.exports = Util;

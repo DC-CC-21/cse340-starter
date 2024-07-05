@@ -25,7 +25,7 @@ validate.addClassificationRules = () => {
       .withMessage("Please provide a classification name."), // Custom error message for invalid input
 
     body("classification_name")
-      .matches("^w+") // Ensure field contains only letters, numbers, and underscores
+      .matches("[a-zA-Z0-9_]+") // Ensure field contains only letters, numbers, and underscores
       .withMessage(
         "Classification name must contain only letters, numbers, and underscores."
       ),
@@ -52,8 +52,10 @@ validate.addInventoryRules = () => {
       .escape()
       .notEmpty()
       .isLength({ min: 1 })
-      .isNumeric()
       .withMessage("Please provide a year."),
+    body("inv_year")
+      .isNumeric()
+      .withMessage("Year is not valid"),
 
     body("inv_description")
       .trim()
@@ -81,16 +83,20 @@ validate.addInventoryRules = () => {
       .escape()
       .notEmpty()
       .isLength({ min: 1 })
-      .isNumeric()
       .withMessage("Please provide a price."),
+    body("inv_price")
+      .isNumeric()
+      .withMessage("Price is not valid number."),
 
     body("inv_miles")
       .trim()
       .escape()
       .notEmpty()
       .isLength({ min: 1 })
-      .isNumeric()
       .withMessage("Please provide number of miles."),
+    body("inv_miles")
+      .isNumeric()
+      .withMessage("Miles is not valid number."),
 
     body("inv_color")
       .trim()
@@ -109,18 +115,18 @@ validate.addInventoryRules = () => {
 };
 
 validate.checkClassificationData = async (req, res, next) => {
-  const { classification_name } = req.body;
   let errors = [];
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     const nav = await utilities.getNav();
     const links = await utilities.getManagementLinks();
+    res.locals = { ...res.locals, ...req.body };
+
     res.render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
       links,
-      errors,
-      classification_name,
+      errors: errors,
     });
     return;
   } else {
@@ -134,11 +140,14 @@ validate.checkInventoryData = async (req, res, next) => {
   if (!errors.isEmpty()) {
     const nav = await utilities.getNav();
     const links = await utilities.getManagementLinks();
-    res.render("./inventory/add-classification", {
+    const options = await utilities.getClassificationIdOptions(req.body.classification_id);
+    res.locals = { ...res.locals, ...req.body };
+    res.render("./inventory/add-inventory", {
       title: "Add Classification",
       nav,
       links,
-      errors,
+      errors: errors,
+      options: options,
     });
     return;
   } else {

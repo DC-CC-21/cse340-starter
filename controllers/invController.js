@@ -33,7 +33,9 @@ invCont.buildByClassificationId = async function (
 
   // Get the name of the classification
   let className = data[0]?.classification_name;
-  if(!className){className = "No"}
+  if (!className) {
+    className = "No";
+  }
 
   // Render the page with the classification name and navigation data
   res.render("./inventory/classification", {
@@ -118,7 +120,7 @@ invCont.addClassificationView = async function (req, res, next) {
     title: "Add Classification", // Page title
     nav, // Navigation data
     links, // Management links
-    errors:null
+    errors: null,
   });
 };
 
@@ -152,7 +154,7 @@ invCont.addClassification = async function (req, res, next) {
     title: "Add Classification", // Page title
     nav, // Navigation data
     links, // Management links
-    errors:null
+    errors: null,
   });
 };
 
@@ -176,7 +178,7 @@ invCont.addInventoryView = async function (req, res, next) {
     nav,
     links,
     options: classIdOptions,
-    errors:null
+    errors: null,
   });
 };
 
@@ -191,9 +193,6 @@ invCont.addInventory = async function (req, res, next) {
   const nav = await utilities.getNav();
   // Retrieve the management links
   const links = await utilities.getManagementLinks();
-  // Retrieve the classification id options for the dropdown
-  const classIdOptions =
-    await utilities.getClassificationIdOptions();
   // Extract the inventory data from the request body
   const {
     inv_make,
@@ -207,6 +206,7 @@ invCont.addInventory = async function (req, res, next) {
     inv_color,
     classification_id,
   } = req.body;
+  // Retrieve the classification id options for the dropdown
   try {
     // Add the inventory to the database
     let data = await invModel.addInventory(
@@ -228,12 +228,14 @@ invCont.addInventory = async function (req, res, next) {
     req.flash("Error inserting data", error);
   }
   // Render the page to add an inventory with the navigation data, links, and classification id options
+  const classIdOptions =
+    await utilities.getClassificationIdOptions();
   res.render("./inventory/add-inventory", {
     title: "Add Inventory",
     nav,
     links,
     options: classIdOptions,
-    errors:null
+    errors: null,
   });
 };
 

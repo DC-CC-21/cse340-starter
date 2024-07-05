@@ -10,11 +10,11 @@
 <% } %> <%- links %>
 <form action="/inv/add-inventory" method="post">
   <label
-    ><span>Make</span
-    ><input
+    ><span>Make</span>
+    <input
       type="text"
       name="inv_make"
-      value="<%= locals.make %>"
+      value="<%= locals.inv_make %>"
       required
   /></label>
   <label
@@ -22,7 +22,7 @@
     ><input
       type="text"
       name="inv_model"
-      value="<%= locals.model %>"
+      value="<%= locals.inv_model %>"
       required
   /></label>
   <label
@@ -30,7 +30,7 @@
     ><input
       type="text"
       name="inv_year"
-      value="<%= locals.year %>"
+      value="<%= locals.inv_year %>"
       required
   /></label>
   <label
@@ -38,19 +38,19 @@
     ><input
       type="text"
       name="inv_description"
-      value="<%= locals.description %>"
+      value="<%= locals.inv_description %>"
       required
   /></label>
   <label
     ><span>Image</span><input type="text" name="inv_image"
-    value="<%= locals.image? locals.image :
+    value="<%- locals.inv_image? locals.inv_image :
     "/images/vehicles/no-image.png" %>" required
     placeholder="/image/path-to-image.png" /></label
   >
   <label
     ><span>Thumbnail</span><input type="text"
-    name="inv_thumbnail" value="<%= locals.thumbnail?
-    locals.thumbnail : "/images/vehicles/no-image-tn.png" %>"
+    name="inv_thumbnail" value="<%- locals.inv_thumbnail?
+    locals.inv_thumbnail : "/images/vehicles/no-image-tn.png" %>"
     required placeholder="/images/path-to-thumbnail.png"
     /></label
   >
@@ -60,7 +60,7 @@
       type="number"
       step="0.01"
       name="inv_price"
-      value="<%= locals.price %>"
+      value="<%= locals.inv_price %>"
       required
   /></label>
   <label
@@ -68,7 +68,7 @@
     ><input
       type="number"
       name="inv_miles"
-      value="<%= locals.miles %>"
+      value="<%= locals.inv_miles %>"
       required
   /></label>
   <label
@@ -76,7 +76,7 @@
     ><input
       type="text"
       name="inv_color"
-      value="<%= locals.color %>"
+      value="<%= locals.inv_color %>"
       required
   /></label>
   <label
