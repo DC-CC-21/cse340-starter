@@ -118,6 +118,7 @@ invCont.addClassificationView = async function (req, res, next) {
     title: "Add Classification", // Page title
     nav, // Navigation data
     links, // Management links
+    errors:null
   });
 };
 
@@ -151,6 +152,7 @@ invCont.addClassification = async function (req, res, next) {
     title: "Add Classification", // Page title
     nav, // Navigation data
     links, // Management links
+    errors:null
   });
 };
 
@@ -174,6 +176,7 @@ invCont.addInventoryView = async function (req, res, next) {
     nav,
     links,
     options: classIdOptions,
+    errors:null
   });
 };
 
@@ -230,6 +233,7 @@ invCont.addInventory = async function (req, res, next) {
     nav,
     links,
     options: classIdOptions,
+    errors:null
   });
 };
 

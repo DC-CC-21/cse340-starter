@@ -1,7 +1,13 @@
 <% if (title){ %>
 <h1><%= title %></h1>
-<%} else { %> res.redirect("/"); <%}%> <%- messages() %> <%-
-links %>
+<%} else { %> res.redirect("/"); <%}%> <%- messages() %> <% if
+(errors ){ %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %> <%- links %>
 <form action="/inv/add-inventory" method="post">
   <label
     ><span>Make</span
@@ -36,23 +42,18 @@ links %>
       required
   /></label>
   <label
-    ><span>Image</span
-    ><input
-      type="text"
-      name="inv_image"
-      value="<%= locals.image? locals.image : "/images/vehicles/no-image.png" %>"
-      required
-      placeholder="/image/path-to-image.png"
-  /></label>
+    ><span>Image</span><input type="text" name="inv_image"
+    value="<%= locals.image? locals.image :
+    "/images/vehicles/no-image.png" %>" required
+    placeholder="/image/path-to-image.png" /></label
+  >
   <label
-    ><span>Thumbnail</span
-    ><input
-      type="text"
-      name="inv_thumbnail"
-      value="<%= locals.thumbnail? locals.thumbnail : "/images/vehicles/no-image-tn.png" %>"
-      required
-      placeholder="/images/path-to-thumbnail.png"
-  /></label>
+    ><span>Thumbnail</span><input type="text"
+    name="inv_thumbnail" value="<%= locals.thumbnail?
+    locals.thumbnail : "/images/vehicles/no-image-tn.png" %>"
+    required placeholder="/images/path-to-thumbnail.png"
+    /></label
+  >
   <label
     ><span>Price</span
     ><input
