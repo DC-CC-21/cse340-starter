@@ -1,5 +1,16 @@
 <% if (title){ %>
 <h1><%= title %></h1>
 <%} else { %> res.redirect("/"); <%}%>
-<% messages() %> 
+<%- messages() %> 
 <%- links %>
+<h2>Manage Inventory</h2>
+<p>Select a classification from the list below to see the items belonging to that classification.</p>
+<label
+><span>Classification id</span>
+<select name="classification_id" id="classificationList">
+  <%-classificationSelect%>
+</select>
+</label>
+<table id="inventoryDisplay"></table>
+<noscript>Javascript must be enabled to view this page.</noscript>
+<script src="../../js/inventory.js"></script>

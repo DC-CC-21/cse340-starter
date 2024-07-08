@@ -25,6 +25,8 @@ router.post("/login",
   regValidate.checkLoginData,
   utilities.handleErrors(accountController.Login)
 )
-
+router.get("/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.accountView))
 // Export the router module
 module.exports = router;

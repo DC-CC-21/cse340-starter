@@ -30,21 +30,31 @@ async function checkExistingAccount(account_email) {
   }
 }
 
-async function loginAccount(
-  account_email,
-  account_password
-) {
+// async function loginAccount(
+//   account_email,
+//   account_password
+// ) {
+//   try {
+//     const sql =
+//       "SELECT * FROM account WHERE account_email = $1 AND account_password = $2";
+//     const login = await pool.query(sql, [
+//       account_email,
+//       account_password,
+//     ]);
+//     return login.rowCount;
+//   } catch (error) {
+//     return error.message;
+//   }
+// }
+async function getAccountByEmail(account_email) {
   try {
     const sql =
-      "SELECT * FROM account WHERE account_email = $1 AND account_password = $2";
-    const login = await pool.query(sql, [
-      account_email,
-      account_password,
-    ]);
-    return login.rowCount;
+      "SELECT * FROM account WHERE account_email = $1";
+    const email = await pool.query(sql, [account_email]);
+    return email.rows[0];
   } catch (error) {
-    return error.message;
+    return new Error("No mathing email found");
   }
 }
 
-module.exports = { registerAccount, checkExistingAccount, loginAccount};
+module.exports = { registerAccount, checkExistingAccount, getAccountByEmail};

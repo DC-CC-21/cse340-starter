@@ -8,7 +8,7 @@
   <% }) %>
 </ul>
 <% } %> <%- links %>
-<form action="/inv/add-inventory" method="post">
+<form action="/inv/update" method="post" id="updateForm">
   <label
     ><span>Make</span>
     <input
@@ -64,7 +64,8 @@
       required
   /></label>
   <label
-    ><span>Miles</span><input
+    ><span>Miles</span
+    ><input
       type="number"
       name="inv_miles"
       value="<%= locals.inv_miles %>"
@@ -84,6 +85,14 @@
       <%-options%>
     </select>
   </label>
+  <input 
+    type="hidden" 
+    name="inv_id" 
+    <% if(locals.inv_id) { %>
+        value="<%= locals.inv_id %>"
+    <% } %>
+    />
 
-  <button type="submit">Add</button>
+  <button type="submit" disabled id="updateBtn">Update Vehicle</button>
 </form>
+<script src="/js/inv-update.js"></script>

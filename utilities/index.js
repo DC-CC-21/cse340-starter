@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const invModel = require("../models/inventory-model");
 const Util = {};
 
@@ -176,15 +178,58 @@ Util.getManagementLinks = async function () {
 
 Util.getClassificationIdOptions = async function (value = "") {
   const options = await invModel.getClassificationIds();
-  return options.map((option) => {
-    console.log(option.classification_name, option.classification_id, value, option.classification_id == value ? "selected=\"selected\"" : "")
-    return `<option 
+  return options
+    .map((option) => {
+      console.log(
+        option.classification_name,
+        option.classification_id,
+        value,
+        option.classification_id == value
+          ? 'selected="selected"'
+          : ""
+      );
+      return `<option 
               value="${option.classification_id}"
-              ${option.classification_id == value ? "selected=\"selected\"" : ""}
+              ${
+                option.classification_id == value
+                  ? 'selected="selected"'
+                  : ""
+              }
               >
                 ${option.classification_name}
             </option>`;
-  });
+    })
+    .join("");
 };
+
+Util.checkJWTToken = (req, res, next) => {
+  if (req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.ACCESS_TOKEN_SECRET,
+      function (err, accountData) {
+        if (err) {
+          req.flash("notice", "Please log in");
+          res.clearCookie("jwt");
+          return res.redirect("/account/login");
+        }
+        res.locals.accountData = accountData;
+        res.locals.loggedin = 1;
+        next();
+      }
+    );
+  } else {
+    next();
+  }
+};
+
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in")
+    return res.redirect("/account/login")
+  }
+}
 
 module.exports = Util;

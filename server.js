@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+const cookieParser = require("cookie-parser")
 const session = require("express-session");
 const pool = require("./database");
 
@@ -71,6 +72,8 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 /* ***********************
  * View Engines
  *************************/

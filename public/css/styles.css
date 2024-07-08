@@ -257,6 +257,33 @@ details .info {
   
 }
 
+
+
+#inventoryDisplay{
+  width:80%;
+  display:block;
+  margin:auto;
+  padding:0.5em;
+  background-color: hsl(244, 19%, 60%);
+  border-collapse: collapse;
+}
+tbody, thead{
+  margin:auto;
+  display:block;
+  width:100%;
+}
+#inventoryDisplay tbody td{
+  padding:0.25em;
+}
+
+#inventoryDisplay tr:nth-child(even){
+  background-color: hsl(244, 19%, 90%);
+}
+
+#inventoryDisplay tbody tr:nth-child(odd){
+  background-color: hsl(244, 19%, 80%);
+}
+
 /* > MISC */
 .notice {
   display:flex;

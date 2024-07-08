@@ -114,6 +114,89 @@ validate.addInventoryRules = () => {
   ];
 };
 
+validate.newInventoryRules = () => {
+  return [
+    body("inv_make")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a make name."),
+
+    body("inv_model")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a model name."),
+
+    body("inv_year")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a year."),
+    body("inv_year")
+      .isNumeric()
+      .withMessage("Year is not valid"),
+
+    body("inv_description")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a description name."),
+
+    body("inv_image")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide an image name."),
+
+    body("inv_thumbnail")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide an image thumbnail."),
+
+    body("inv_price")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a price."),
+    body("inv_price")
+      .isNumeric()
+      .withMessage("Price is not valid number."),
+
+    body("inv_miles")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide number of miles."),
+    body("inv_miles")
+      .isNumeric()
+      .withMessage("Miles is not valid number."),
+
+    body("inv_color")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a valid color."),
+
+    body("classification_id")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a valid classification id."),
+  ];
+};
+
 validate.checkClassificationData = async (req, res, next) => {
   let errors = [];
   errors = validationResult(req);
@@ -146,6 +229,30 @@ validate.checkInventoryData = async (req, res, next) => {
     res.locals = { ...res.locals, ...req.body };
     res.render("./inventory/add-inventory", {
       title: "Add Classification",
+      nav,
+      links,
+      errors: errors,
+      options: options,
+    });
+    return;
+  } else {
+    next();
+  }
+};
+
+validate.checkUpdateData = async (req, res, next) => {
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    const links = await utilities.getManagementLinks();
+    const options = await utilities.getClassificationIdOptions(
+      req.body.classification_id
+    );
+    const itemName = `${req.body.inv_make} ${req.body.inv_model}`;
+    res.locals = { ...res.locals, ...req.body };
+    res.render("./inventory/edit-inventory", {
+      title: itemName,
       nav,
       links,
       errors: errors,
