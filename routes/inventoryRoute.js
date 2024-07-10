@@ -46,4 +46,8 @@ router.post("/update",
   managementValidation.newInventoryRules(),
   managementValidation.checkUpdateData,
   utilities.handleErrors(invController.updateInventory))
+
+router.get("/delete/:inventory_id", utilities.handleErrors(invController.deleteCionfirmationView))
+router.post("/delete/", utilities.handleErrors(invController.deleteFromInventory))
+
 module.exports = router;
