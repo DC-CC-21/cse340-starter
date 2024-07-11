@@ -15,7 +15,7 @@
       type="text"
       name="account_firstname"
       id="account_firstname"
-      value="<%= locals.accountData.account_firstname %>"
+      value="<%= locals.data.account_firstname %>"
       required
     />
   </label>
@@ -25,7 +25,7 @@
       type="text"
       name="account_lastname"
       id="account_lastname"
-      value="<%= locals.accountData.account_lastname %>"
+      value="<%= locals.data.account_lastname %>"
       required
     />
   </label>
@@ -35,7 +35,7 @@
       type="email"
       name="account_email"
       id="account_email"
-      value="<%= locals.accountData.account_email %>"
+      value="<%= locals.data.account_email %>"
       required
     />
   </label>
@@ -43,7 +43,7 @@
     type="hidden"
     name="account_id"
     id="account_id"
-    value="<%= locals.accountData.account_id %>"
+    value="<%= locals.data.account_id %>"
   />
   <button type="submit">
     Update Account
@@ -74,7 +74,7 @@
     type="hidden"
     name="account_id"
     id="pwd_account_id"
-    value="<%= locals.accountData.account_id %>"
+    value="<%= locals.data.account_id %>"
   />
   <button type="submit">
     Change Password

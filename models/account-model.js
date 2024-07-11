@@ -94,10 +94,21 @@ async function updateAccount(
   }
 }
 
+async function getAccountById(account_id) {
+  try {
+    const sql = "SELECT * FROM account WHERE account_id = $1";
+    const id = await pool.query(sql, [account_id]);
+    return id.rows[0];
+  } catch (error) {
+    return error.message;
+  }
+}
+
 module.exports = {
   registerAccount,
   checkExistingAccount,
   getAccountByEmail,
   updateAccount,
   changePassword,
+  getAccountById
 };

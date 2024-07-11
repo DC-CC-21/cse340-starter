@@ -170,11 +170,14 @@ async function accountView(req, res, next) {
 }
 
 async function updateAccountView(req, res, next) { 
+  const {account_id} = req.params
+  const accountData = await accountModel.getAccountById(account_id)
   const nav = await utilities.getNav()
   res.render("account/update", {
     title: "Update Account Information",
     nav,
-    errors: null
+    errors: null,
+    data: accountData
   });
 }
 
