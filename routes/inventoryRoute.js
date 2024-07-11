@@ -4,6 +4,7 @@ const invController = require("../controllers/invController");
 const managementValidation = require("../utilities/management-validation");
 const utilities = require("../utilities");
 
+// Public Routes
 router.get(
   "/type/:classificationId",
   utilities.handleErrors(invController.buildByClassificationId)
@@ -16,12 +17,21 @@ router.get(
   "/newRoute/",
   utilities.handleErrors(invController.pageWithError)
 );
+
+/* ***********************
+ * Management Routes
+ *************************/
+// Home
 router.get(
   "/",
+  utilities.checkAccountRole,
   utilities.handleErrors(invController.manageInventory)
 );
+
+// Add classification
 router.get(
   "/add-classification",
+  utilities.checkAccountRole,
   utilities.handleErrors(invController.addClassificationView)
 );
 router.post(
@@ -30,8 +40,11 @@ router.post(
   managementValidation.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
 );
+
+// Add inventory
 router.get(
   "/add-inventory",
+  utilities.checkAccountRole,
   utilities.handleErrors(invController.addInventoryView)
 );
 router.post(
@@ -40,14 +53,37 @@ router.post(
   managementValidation.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
-router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
-router.get("/edit/:inventory_id", utilities.handleErrors(invController.buildInventoryEditView))
-router.post("/update",
+
+// Edit
+router.get(
+  "/getInventory/:classification_id",
+  utilities.checkAccountRole,
+  utilities.handleErrors(invController.getInventoryJSON)
+);
+router.get(
+  "/edit/:inventory_id",
+  utilities.checkAccountRole,
+  utilities.handleErrors(invController.buildInventoryEditView)
+);
+
+// Update
+router.post(
+  "/update",
   managementValidation.newInventoryRules(),
   managementValidation.checkUpdateData,
-  utilities.handleErrors(invController.updateInventory))
+  utilities.handleErrors(invController.updateInventory)
+);
 
-router.get("/delete/:inventory_id", utilities.handleErrors(invController.deleteCionfirmationView))
-router.post("/delete/", utilities.handleErrors(invController.deleteFromInventory))
+// Delete
+router.get(
+  "/delete/:inventory_id",
+  utilities.checkAccountRole,
+  utilities.handleErrors(invController.deleteCionfirmationView)
+);
+router.post(
+  "/delete/",
+  utilities.handleErrors(invController.deleteFromInventory)
+);
 
+// Export the router
 module.exports = router;

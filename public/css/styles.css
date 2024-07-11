@@ -226,123 +226,161 @@ details .info {
   background-color: aqua;
 }
 
-
-#management-links{
+#management-links {
   list-style-type: none;
-  display:flex;
-  width:100%;
-  flex-direction:row;
-  justify-content:space-evenly;
-  padding:0.25em;
-  margin:0.25em;
-  color:white;
-  height:50px;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 0.25em;
+  margin: 0.25em;
+  color: white;
+  height: 50px;
 }
 
-#management-links a{
-  padding:0.5em;
+#management-links a {
+  padding: 0.5em;
   background-color: var(--primary);
   border-radius: 0.5em;
-  color:white;
+  color: white;
 }
 
-#messages li{
-  background-color: rgb(140, 233, 97);
-  border-radius: 0.5em;
-  border:1px solid green;
-  margin:1em auto;
-  width:80%;
-  padding:0.5em;
-  list-style-type: none;
-  
-}
-
-
-
-#inventoryDisplay{
-  width:80%;
-  display:block;
-  margin:auto;
-  padding:0.5em;
+#inventoryDisplay {
+  width: 80%;
+  display: block;
+  margin: auto;
+  padding: 0.5em;
   background-color: hsl(244, 19%, 60%);
   border-collapse: collapse;
 }
-tbody, thead{
-  margin:auto;
-  display:block;
-  width:100%;
+tbody,
+thead {
+  margin: auto;
+  display: block;
+  width: 100%;
 }
-#inventoryDisplay tbody td{
-  padding:0.25em;
+#inventoryDisplay tbody td {
+  padding: 0.25em;
 }
 
-#inventoryDisplay tr:nth-child(even){
+#inventoryDisplay tr:nth-child(even) {
   background-color: hsl(244, 19%, 90%);
 }
 
-#inventoryDisplay tbody tr:nth-child(odd){
+#inventoryDisplay tbody tr:nth-child(odd) {
   background-color: hsl(244, 19%, 80%);
 }
 
-/* > MISC */
-.notice {
-  display:flex;
+.instructions {
+  padding: 0.5em;
+}
+
+/* > Account */
+.management {
+  margin-top: 2em;
+  display: flex;
   flex-direction: column;
-  padding:0.5em;
+}
+.account-management {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 80%;
+  padding: 0.25em;
+  border: 2px solid #242333;
+  border-radius: 0.5em;
+  padding-left: 1em;
+}
+.account-management h2,
+.account-management h3 {
+  padding: 0.25em;
+}
+.account-management a {
+  border-radius: 0.5em;
+  background-color: hsl(206, 100%, 65%);
+  border: 2px solid var(--primary);
+  padding: 0.5em;
+  display: block;
+}
+.account-management > a,
+.management {
+  width: 45%;
+}
+.account-management .management a {
+  width: 100%;
+}
+.account-management p {
+  padding: 0.5em 0;
+}
+
+.accountInfo {
+  padding: 0.5em;
+}
+
+/* > MISC */
+.notice li,
+.error li {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  list-style-type: none;
+  border-radius: 0.5em;
+  width:80%;
+  margin:0.5em auto;
 }
 .notice li {
-  list-style-type: none;
-  padding:0.5em 0.25em;
-  border-radius: 0.5em;
-  background-color:rgba(255, 0, 0, 0.377);
-  border:3px solid red;
-  margin:0.25em;
-  
+  background-color: rgb(140, 233, 97);
+  border: 2px solid green;
+  padding: 0.5em;
+}
+.error li {
+  background-color: rgba(255, 0, 0, 0.377);
+  border: 3px solid red;
 }
 form {
-  background-color:#486094;
+  background-color: #486094;
   padding: 0.5em;
   border-radius: 0.5em;
-  margin:0.5em 1em;
+  margin: 0.5em 1em;
 }
-label{
-  color:white;
-  display:grid;
+label {
+  color: white;
+  display: grid;
 
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   padding: 0.25em;
   font-size: large;
   max-width: 400px;
-  margin:0.5em 0.25em;
+  margin: 0.5em 0.25em;
 }
-input, select {
+input,
+select {
   padding: 0.25em;
   font-size: large;
 }
-form button{
-  padding:0.25em;
+form button {
+  padding: 0.25em;
   font-size: large;
   border-radius: 10px;
-  width:100px;
-  margin:0.5em;
+  width: 100px;
+  margin: 0.5em;
 }
 
-.inform{
-  color:white;
-    
+.inform {
+  color: white;
 }
-label .inform{
-  color:white;
+label .inform {
+  color: white;
   font-size: small;
 }
-form div{
+form div {
   text-align: center;
-  color:white;
+  color: white;
   padding: 0.25em;
 }
 form a {
-  color:white;
+  color: white;
   font-size: large;
   text-decoration: underline;
 }
@@ -374,6 +412,12 @@ main {
   position: relative;
 }
 
+form h2 {
+  color: white;
+  border-bottom: #242333 2px solid;
+  padding: 0.25em;
+}
+
 @media screen and (min-width: 400px) {
   nav ul {
     flex-direction: row;
@@ -382,7 +426,7 @@ main {
   }
   nav a,
   nav li {
-    padding:unset;
+    padding: unset;
   }
 }
 @media screen and (min-width: 600px) {

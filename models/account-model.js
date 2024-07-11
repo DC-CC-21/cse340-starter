@@ -15,17 +15,34 @@ async function registerAccount(
       account_password,
     ]);
   } catch (error) {
+    console.log(error);
     return error.message;
   }
 }
 
 async function checkExistingAccount(account_email) {
   try {
-    const sql =
-      "SELECT * FROM account WHERE account_email = $1";
+    const sql = "SELECT * FROM account WHERE account_email = $1";
     const email = await pool.query(sql, [account_email]);
-    return email.rowCount;
+    return email.rows[0];
   } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+}
+
+async function changePassword(account_password, account_id) {
+  try {
+    const sql = `
+    UPDATE account
+    SET account_password = $1
+    WHERE account_id = $2
+    RETURNING *`;
+    return (
+      await pool.query(sql, [account_password, account_id])
+    ).rows[0];
+  } catch (error) {
+    console.log(error);
     return error.message;
   }
 }
@@ -48,8 +65,7 @@ async function checkExistingAccount(account_email) {
 // }
 async function getAccountByEmail(account_email) {
   try {
-    const sql =
-      "SELECT * FROM account WHERE account_email = $1";
+    const sql = "SELECT * FROM account WHERE account_email = $1";
     const email = await pool.query(sql, [account_email]);
     return email.rows[0];
   } catch (error) {
@@ -57,4 +73,31 @@ async function getAccountByEmail(account_email) {
   }
 }
 
-module.exports = { registerAccount, checkExistingAccount, getAccountByEmail};
+async function updateAccount(
+  account_firstname,
+  account_lastname,
+  account_email
+) {
+  try {
+    const sql =
+      "UPDATE account SET account_firstname = $1, account_lastname = $2 WHERE account_email = $3 RETURNING *";
+    return (
+      await pool.query(sql, [
+        account_firstname,
+        account_lastname,
+        account_email,
+      ])
+    ).rows[0];
+  } catch (error) {
+    console.log(error);
+    return error.message;
+  }
+}
+
+module.exports = {
+  registerAccount,
+  checkExistingAccount,
+  getAccountByEmail,
+  updateAccount,
+  changePassword,
+};

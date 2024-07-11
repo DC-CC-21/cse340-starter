@@ -232,4 +232,56 @@ Util.checkLogin = (req, res, next) => {
   }
 }
 
+Util.canManage = (req, res, next) => {
+  const role = res.locals?.accountData?.account_type
+  if (role === "Admin" || role === "Employee") { 
+    return true
+  } else {
+    return false
+  }
+
+}
+
+Util.checkAccountRole = (req, res, next) => {
+  if (Util.canManage(req, res, next)) {
+    next()
+  } else {
+    req.flash("error", "You do not have permission to view that page")
+    return res.redirect("/account/login")
+  }
+}
+
+Util.buildManagementLink = () => {
+  return `
+    <h3>Inventory Management</h3>
+    <p>
+      <a href="/inv/">View Inventory</a>
+    </p>
+  `
+}
+
+Util.registerCookie = (accountData, res) => {
+  const accessToken = jwt.sign(
+    accountData,
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: 3600 }
+  );
+  if (process.env.NODE_ENV === "development") {
+    res.cookie("jwt", accessToken, {
+      httpOnly: true,
+      maxAge: 3600 * 1000,
+    });
+  } else {
+    res.cookie("jwt", accessToken, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 3600 * 1000,
+    });
+  }
+}
+
+Util.clearCookie = (res) => {
+  res.clearCookie("jwt")
+}
+
 module.exports = Util;

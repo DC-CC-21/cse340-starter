@@ -1,12 +1,3 @@
-//#  TODO
-//#  Double check stickyness of update item form (specifically the select menu)
-//#  Add css to constrain the width of the item images
-//#  Make sure that the disabled button works after an item in the form is updated
-//#  /|\
-//#   | For the above one, check every field in the form
-//#  Before submitting, use the HTML and CSS validators along with the WAVE tool
-
-
 /* ******************************************
  * This server.js file is the primary file of the
  * application. It is used to control the project.

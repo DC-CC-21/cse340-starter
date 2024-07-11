@@ -8,10 +8,7 @@
 const utilities = require(".");
 const accountModel = require("../models/account-model");
 
-const {
-  body,
-  validationResult,
-} = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const validate = {};
 
 /**
@@ -58,10 +55,9 @@ validate.registrationRules = () => {
       .normalizeEmail() // Normalize the email address
       .withMessage("A valid email address is required.") // Custom error message for invalid input
       .custom(async (account_email) => {
-        const email =
-          await accountModel.checkExistingAccount(
-            account_email
-          );
+        const email = await accountModel.checkExistingAccount(
+          account_email
+        );
         if (email) {
           return Promise.reject(
             `Email exists. Please log in or use a different email.`
@@ -108,10 +104,9 @@ validate.loginRules = () => {
       .normalizeEmail() // Normalize the email address
       .withMessage("A valid email address is required.") // Custom error message for invalid input
       .custom(async (account_email) => {
-        const email =
-          await accountModel.checkExistingAccount(
-            account_email
-          );
+        const email = await accountModel.checkExistingAccount(
+          account_email
+        );
         if (!email) {
           return Promise.reject(
             `Email does not exists. Please sign up or use a different email.`
@@ -139,11 +134,8 @@ validate.loginRules = () => {
 };
 
 validate.checkRegData = async (req, res, next) => {
-  const {
-    account_firstname,
-    account_lastname,
-    account_email,
-  } = req.body;
+  const { account_firstname, account_lastname, account_email } =
+    req.body;
   let errors = [];
   errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -172,6 +164,86 @@ validate.checkLoginData = async (req, res, next) => {
       nav,
       errors,
       account_email,
+    });
+    return;
+  } else {
+    next();
+  }
+};
+
+validate.updateAccountRules = () => {
+  return [
+    body("account_firstname")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("First name is required"),
+    body("account_lastname")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Last name is required"),
+    body("account_email")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email must be a valid email address")
+      .custom(async (account_email) => {
+        const email = await accountModel.checkExistingAccount(
+          account_email
+        );
+        if (email && account_email !== email.account_email) {
+          return Promise.reject(
+            `Email already exists. Please sign up or use a different email.`
+          );
+        }
+      }),
+  ];
+};
+validate.updatePasswordRules = () => {
+  return [
+    body("account_password")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Password is required")
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage("Password does not meet requirements."),
+  ];
+};
+
+validate.checkUpdateData = async (req, res, next) => {
+  let errors = [];
+  errors = validationResult(req);
+  const nav = await utilities.getNav();
+  if (!errors.isEmpty()) {
+    res.render(`account/update`, {
+      title: "Update Account Information",
+      nav,
+      errors,
+    });
+  } else {
+    next();
+  }
+};
+
+validate.checkUpdatePasswordData = async (req, res, next) => {
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    res.render(`account/update`, {
+      title: "Update Account Information",
+      nav,
+      errors,
     });
     return;
   } else {
