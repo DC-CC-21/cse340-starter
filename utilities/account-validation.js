@@ -194,9 +194,9 @@ validate.updateAccountRules = () => {
         const email = await accountModel.checkExistingAccount(
           account_email
         );
-        if (email && account_email !== email.account_email) {
+        if (email) {
           return Promise.reject(
-            `Email already exists. Please sign up or use a different email.`
+            `Email already exists. Please use a different email.`
           );
         }
       }),
@@ -223,12 +223,17 @@ validate.updatePasswordRules = () => {
 validate.checkUpdateData = async (req, res, next) => {
   let errors = [];
   errors = validationResult(req);
-  const nav = await utilities.getNav();
   if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    const { account_id } = req.body;
+    const accountData = await accountModel.getAccountById(
+      account_id
+    );
     res.render(`account/update`, {
       title: "Update Account Information",
       nav,
       errors,
+      data: accountData
     });
   } else {
     next();
@@ -240,10 +245,16 @@ validate.checkUpdatePasswordData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     const nav = await utilities.getNav();
+    const { account_id } = req.body;
+    const accountData = await accountModel.getAccountById(
+      account_id
+    );
+
     res.render(`account/update`, {
       title: "Update Account Information",
       nav,
       errors,
+      data: accountData,
     });
     return;
   } else {
