@@ -417,4 +417,120 @@ invCont.deleteFromInventory = async function (req, res, next) {
   }
 };
 
+invCont.BuildSearchView = async (req, res, next) => {
+  const nav = await utilities.getNav();
+  const data = await invModel.getAllInventory();
+  let filters = utilities.buildSearchFilters(data);
+  console.log(filters);
+  res.render("./inventory/search", {
+    title: "Search",
+    nav,
+    errors: null,
+    grid: await utilities.buildClassificationGrid(data),
+    filters: filters,
+  });
+};
+
+/**
+ * Handles the search form submission by filtering the inventory data based on
+ * the search criteria and sending the filtered grid data back to the client.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Next middleware function
+ */
+invCont.getSearchResults = async (req, res, next) => {
+  const searchParams = req.query;
+  let filteredData = await invModel.getAllInventory();
+  console.log(searchParams);
+  let searchValue = searchParams.search;
+  delete searchParams.search;
+
+  /**
+   * If there are search parameters, filter the data based on the criteria.
+   * If there is a search value, filter based on the make name. Otherwise, filter
+   * based on the other search parameters.
+   */
+  if (Object.keys(searchParams).length || searchValue) {
+    filteredData = filteredData.filter((item) => {
+      let isMatch = false;
+      if (searchValue) {
+        if (
+          item.inv_make
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
+        ) {
+          isMatch = true;
+        }
+      } else {
+        isMatch = true;
+      }
+      /**
+       * Iterate over the search parameters and check if the current item
+       * matches any of the criteria. If there is a search value, check if
+       * the make name includes the search value. If there are other search
+       * parameters, check if the item matches any of them.
+       */
+      if (isMatch) {
+        Object.entries(searchParams).forEach(([key, value]) => {
+          if (!isMatch) return;
+          if (Array.isArray(value)) {
+            isMatch = value.some((criteria) => {
+              switch (key) {
+                case "year":
+                  return utilities.matchYear(
+                    item.inv_year,
+                    criteria
+                  );
+                case "prices":
+                  return utilities.matchPrice(
+                    item.inv_price,
+                    criteria
+                  );
+                default:
+                  return false;
+              }
+            });
+          } else {
+            switch (key) {
+              case "year":
+                isMatch = utilities.matchYear(
+                  item.inv_year,
+                  value
+                );
+                break;
+              case "prices":
+                isMatch = utilities.matchPrice(
+                  item.inv_price,
+                  value
+                );
+                break;
+              default:
+                isMatch = false;
+            }
+          }
+        });
+      }
+
+      return isMatch;
+    });
+  }
+
+  /**
+   * If there are results, send the filtered grid data back to the client.
+   * Otherwise, send a message indicating that no results were found.
+   */
+  if (filteredData.length) {
+    res.send({
+      grid: await utilities.buildClassificationGrid(
+        filteredData
+      ),
+    });
+  } else {
+    res.send({
+      msg: "No results found.",
+    });
+  }
+};
+
 module.exports = invCont;

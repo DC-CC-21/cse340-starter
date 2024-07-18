@@ -1,0 +1,17 @@
+<% if (title){ %>
+<h1><%= title %></h1>
+<%} else { %> res.redirect("/"); <%}%> <%- messages() %>
+<div id="searchBox">
+  <input
+    type="text"
+    name="search"
+    id="search"
+    aria-label="searchBox"
+  />
+  <button type="button" id="searchBtn">Search</button>
+</div>
+<div id="results">
+    <%- filters %>
+    <%- grid %>
+</div>
+<script src="/js/search.js"></script>

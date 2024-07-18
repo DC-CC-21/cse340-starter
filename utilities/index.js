@@ -225,31 +225,33 @@ Util.checkJWTToken = (req, res, next) => {
 
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
-    next()
+    next();
   } else {
-    req.flash("notice", "Please log in")
-    return res.redirect("/account/login")
+    req.flash("notice", "Please log in");
+    return res.redirect("/account/login");
   }
-}
+};
 
 Util.canManage = (req, res, next) => {
-  const role = res.locals?.accountData?.account_type
-  if (role === "Admin" || role === "Employee") { 
-    return true
+  const role = res.locals?.accountData?.account_type;
+  if (role === "Admin" || role === "Employee") {
+    return true;
   } else {
-    return false
+    return false;
   }
-
-}
+};
 
 Util.checkAccountRole = (req, res, next) => {
   if (Util.canManage(req, res, next)) {
-    next()
+    next();
   } else {
-    req.flash("error", "You do not have permission to view that page")
-    return res.redirect("/account/login")
+    req.flash(
+      "error",
+      "You do not have permission to view that page"
+    );
+    return res.redirect("/account/login");
   }
-}
+};
 
 Util.buildManagementLink = () => {
   return `
@@ -257,8 +259,8 @@ Util.buildManagementLink = () => {
     <p>
       <a href="/inv/">View Inventory</a>
     </p>
-  `
-}
+  `;
+};
 
 Util.registerCookie = (accountData, res) => {
   const accessToken = jwt.sign(
@@ -278,10 +280,105 @@ Util.registerCookie = (accountData, res) => {
       maxAge: 3600 * 1000,
     });
   }
-}
+};
 
 Util.clearCookie = (res) => {
-  res.clearCookie("jwt")
-}
+  res.clearCookie("jwt");
+};
+
+Util.buildSearchFilters = (data) => {
+  const filters = {
+    // make: new Set(data.map((item) => item.inv_make)),
+    // model: new Set(data.map((item) => item.inv_model)),
+    prices: [
+      "< 25,000",
+      "25,000-50,000",
+      "50,000-100,000",
+      "> 100,000",
+    ],
+    year: new Set(data.map((item) => item.inv_year)),
+  };
+
+  return `<div class="filters">${Object.entries(filters)
+    .map(([key, value]) => {
+      return `
+      <h4 class="filter-title">${Util.toTitleCase(key)}</h4>
+      <ul>
+        ${Array.from(value)
+          .sort((a, b) => a - b)
+          .map((item) => {
+            return `<li>
+            <label for="${key}-${item}">
+              <input type="checkbox" id="${key}-${item}" name="${key}" value="${item}"/>
+              ${item}
+            </label>
+          </li>`;
+          })
+          .join("")}
+      </ul>
+      `;
+    })
+    .join("")}
+    </div>
+  `;
+};
+
+/**
+ * Checks if two year values match.
+ * @param {number | string} value1 - The first year value.
+ * @param {number | string} value2 - The second year value.
+ * @returns {boolean} - Whether the two year values match.
+ */
+Util.matchYear = (value1, value2) => {
+  // If the values are equal, return true.
+  if (value1 == value2) {
+    return true;
+  }
+  // Otherwise, return false.
+  return false;
+};
+
+/**
+ * Checks if a price value matches a given price range.
+ * @param {number | string} value1 - The price value to check.
+ * @param {string} value2 - The price range to compare against.
+ * @returns {boolean} - Whether the price value matches the price range.
+ */
+Util.matchPrice = (value1, value2) => {
+  // Remove any non-numeric characters from the price range.
+  let v = value2.replace(/[<>, ]/g, "");
+
+  // Check if the price range is less than a certain value.
+  if (value2.includes("<") && +value1 < +v) {
+    return true;
+  }
+  // Check if the price range is greater than a certain value.
+  else if (value2.includes(">") && +value1 > +v) {
+    return true;
+  }
+  // Check if the price range is within a certain range.
+  else if (value2.includes("-")) {
+    let values = v.split("-");
+    if (+value1 >= +values[0] && +value1 <= +values[1]) {
+      return true;
+    }
+  }
+  // If none of the above conditions are met, return false.
+  return false;
+};
+
+/**
+ * Converts a string to title case.
+ * @param {string} str - The string to convert.
+ * @returns {string} - The converted string in title case.
+ */
+Util.toTitleCase = (str) => {
+  // Replace every word in the string with its title case version.
+  return str.replace(/\w\S*/g, function (txt) {
+    return (
+      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
+  });
+};
 
 module.exports = Util;

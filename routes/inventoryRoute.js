@@ -85,5 +85,16 @@ router.post(
   utilities.handleErrors(invController.deleteFromInventory)
 );
 
+// Search 
+router.get(
+  "/search/",
+  utilities.handleErrors(invController.BuildSearchView)
+)
+
+router.get(
+  "/search/results",
+  utilities.handleErrors(invController.getSearchResults)
+)
+
 // Export the router
 module.exports = router;

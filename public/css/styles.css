@@ -325,8 +325,8 @@ thead {
   padding: 0.5em;
   list-style-type: none;
   border-radius: 0.5em;
-  width:80%;
-  margin:0.5em auto;
+  width: 80%;
+  margin: 0.5em auto;
 }
 .notice li {
   background-color: rgb(140, 233, 97);
@@ -416,6 +416,59 @@ form h2 {
   color: white;
   border-bottom: #242333 2px solid;
   padding: 0.25em;
+}
+
+#searchBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin:auto;
+}
+#searchBox input {
+  height: 45px;
+  border-radius: 0.5em 0 0 0.5em;
+}
+#searchBox button {
+  color: black;
+  width: 60px;
+  height: 45px;
+  background-color: hsl(206, 100%, 65%);
+  border:none;
+  border-radius: 0 0.5em 0.5em 0;
+}
+
+label:has(input[type="checkbox"]) {
+  display: flex;
+  flex-direction: row;
+  color: black;
+  font-size: medium;
+  gap: 0.25em;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.filter-title {
+  color: black;
+  font-size: large;
+  font-weight: bold;
+  margin-left: 0.25em;
+  margin-top: 1em;
+}
+
+#results {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 1em;
+  padding: 0.5em;
+}
+.filters {
+  grid-column: 1/2;
+}
+li:has(label) {
+  list-style-type: none;
+}
+
+input[type="checkbox"] {
+  transform:scale(1.2);
 }
 
 @media screen and (min-width: 400px) {
