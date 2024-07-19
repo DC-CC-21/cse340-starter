@@ -455,8 +455,9 @@ invCont.getSearchResults = async (req, res, next) => {
     filteredData = filteredData.filter((item) => {
       let isMatch = false;
       if (searchValue) {
+        let vehicle_name = `${item.inv_make} ${item.inv_model}`;
         if (
-          item.inv_make
+          vehicle_name
             .toLowerCase()
             .includes(searchValue.toLowerCase())
         ) {
